@@ -10,6 +10,22 @@
             font-family: Microsoft JhengHei, serif, sans-serif, cursive, fantasy, monospace;
         }
 
+        .showLayout {
+            display: flex;
+            flex-direction: column;
+        }
+
+        td {
+            margin: 2px;
+            width: 50px;
+            height: 20px;
+            border:1px solid;
+        }
+
+        .textLayout {
+            text-align: center;
+        }
+
         .inputLayout {
             margin: 10px;
         }
@@ -39,6 +55,14 @@
             $("#showTradeCount").text(data.tradeCount)
             $("#showPrice").text(data.price)
             $("#showLastTradePrice").text(data.lastTradePrice)
+            data.sells.forEach((elem, index) => {
+                $("#sellCount" + (index + 1)).text(elem[0])
+                $("#sellPrice" + (index + 1)).text(elem[1])
+            })
+            data.buys.forEach((elem, index) => {
+                $("#buyCount" + (index + 1)).text(elem[0])
+                $("#buyPrice" + (index + 1)).text(elem[1])
+            })
         }
 
         window.onload = function () {
@@ -58,11 +82,12 @@
                     data: { "account": account, "password": password, "proto": "登入" }
                 }).done(function (data, textStatus, jqXHR) {
                     if (data.result === "error") {
-                        $("#massage").text(JSON.stringify(data))
+                        $("#massage").text(data.error)
                         return
                     }
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                     $("#loginPage").hide()
                     $("#userControl").show()
@@ -79,7 +104,8 @@
                     data: { "account": account, "password": password, "proto": "查詢" }
                 }).done(function (data, textStatus, jqXHR) {
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                 });
             })
@@ -102,7 +128,8 @@
                     }
                 }).done(function (data, textStatus, jqXHR) {
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                 });
             })
@@ -117,7 +144,8 @@
                     data: { "account": account, "password": password, "proto": "取消" }
                 }).done(function (data, textStatus, jqXHR) {
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                 });
             })
@@ -138,7 +166,8 @@
                     }
                 }).done(function (data, textStatus, jqXHR) {
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                 });
             })
@@ -159,7 +188,8 @@
                     }
                 }).done(function (data, textStatus, jqXHR) {
                     showResultData(data)
-                    $("#massage").text(JSON.stringify(data))
+                    $("#massage").text("")
+                    $("#massage").text(data.error)
                     console.log(JSON.stringify(data));
                 });
             })
@@ -170,7 +200,7 @@
 </header>
 
 <body>
-    <div class="layout">
+    <div class="layout textLayout">
         <div id="loginPage" class="layout">
             <div class="inputLayout">
                 <label for="username">Username(無加密，請勿使用常用的帳號):</label>
@@ -203,14 +233,66 @@
             <input class="loginInput" id="distribute" type="submit" value="配息" />
             <input class="loginInput" id="addStock" type="submit" value="加總股數" />
 
-            <div>
+            <div class="showLayout textLayout">
                 <div> <label>結果:</label> <label id="showResult"></label> </div>
                 <div> <label>資產:</label> <label id="showMoney"></label> </div>
                 <div> <label>持股:</label> <label id="showStock"></label> </div>
                 <div> <label>掛單數量:</label> <label id="showTradeCount"></label> </div>
                 <div> <label>掛單價格:</label> <label id="showPrice"></label> </div>
-                <div> <label>最後成交金額:</label> <label id="showLastTradePrice"></label> </div>
+                <table class="showTable">
+                    <tr>
+                        <td colspan="2">掛單簿</td>
+                    </tr>
+                    <tr>
+                        <td>價格</td>
+                        <td>數量</td>
+                    </tr>
+                    <tr>
+                        <td id="sellPrice5"></td>
+                        <td id="sellCount5"></td>
+                    </tr>
+                    <tr>
+                        <td id="sellPrice4"></td>
+                        <td id="sellCount4"></td>
+                    </tr>
+                    <tr>
+                        <td id="sellPrice3"></td>
+                        <td id="sellCount3"></td>
+                    </tr>
+                    <tr>
+                        <td id="sellPrice2"></td>
+                        <td id="sellCount2"></td>
+                    </tr>
+                    <tr>
+                        <td id="sellPrice1"></td>
+                        <td id="sellCount1"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><label>最後成交金額:</label> <label id="showLastTradePrice"></label> </td>
+                    </tr>
+                    <tr>
+                        <td id="buyPrice1"></td>
+                        <td id="buyCount1"></td>
+                    </tr>
+                    <tr>
+                        <td id="buyPrice2"></td>
+                        <td id="buyCount2"></td>
+                    </tr>
+                    <tr>
+                        <td id="buyPrice3"></td>
+                        <td id="buyCount3"></td>
+                    </tr>
+                    <tr>
+                        <td id="buyPrice4"></td>
+                        <td id="buyCount4"></td>
+                    </tr>
+                    <tr>
+                        <td id="buyPrice5"></td>
+                        <td id="buyCount5"></td>
+                    </tr>
+                </table>
             </div>
+
 
         </div>
 
