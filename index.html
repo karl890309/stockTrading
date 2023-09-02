@@ -24,12 +24,21 @@
 
         function isCooldown() {
             var time = new Date()
-            if (time.getTime() - clickTime < cooldown*1000) {
+            if (time.getTime() - clickTime < cooldown * 1000) {
                 $("#massage").text("冷卻中，請間隔" + cooldown + "秒在操作")
                 return false
             }
             clickTime = time.getTime()
             return true
+        }
+
+        function showResultData(data) {
+            $("#showResult").text(data.result)
+            $("#showMoney").text(data.money)
+            $("#showStock").text(data.stock)
+            $("#showTradeCount").text(data.tradeCount)
+            $("#showPrice").text(data.price)
+            $("#showLastTradePrice").text(data.lastTradePrice)
         }
 
         window.onload = function () {
@@ -52,6 +61,7 @@
                         $("#massage").text(JSON.stringify(data))
                         return
                     }
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                     $("#loginPage").hide()
@@ -68,6 +78,7 @@
                     url: dbURL,
                     data: { "account": account, "password": password, "proto": "查詢" }
                 }).done(function (data, textStatus, jqXHR) {
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                 });
@@ -90,6 +101,7 @@
                         "price": price
                     }
                 }).done(function (data, textStatus, jqXHR) {
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                 });
@@ -104,6 +116,7 @@
                     url: dbURL,
                     data: { "account": account, "password": password, "proto": "取消" }
                 }).done(function (data, textStatus, jqXHR) {
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                 });
@@ -124,6 +137,7 @@
                         "price": price
                     }
                 }).done(function (data, textStatus, jqXHR) {
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                 });
@@ -144,6 +158,7 @@
                         "tradeCount": tradeCount,
                     }
                 }).done(function (data, textStatus, jqXHR) {
+                    showResultData(data)
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                 });
@@ -188,11 +203,20 @@
             <input class="loginInput" id="distribute" type="submit" value="配息" />
             <input class="loginInput" id="addStock" type="submit" value="加總股數" />
 
+            <div>
+                <div> <label>結果:</label> <label id="showResult"></label> </div>
+                <div> <label>資產:</label> <label id="showMoney"></label> </div>
+                <div> <label>持股:</label> <label id="showStock"></label> </div>
+                <div> <label>掛單數量:</label> <label id="showTradeCount"></label> </div>
+                <div> <label>掛單價格:</label> <label id="showPrice"></label> </div>
+                <div> <label>最後成交金額:</label> <label id="showLastTradePrice"></label> </div>
+            </div>
+
         </div>
 
-        <div id="massage">
 
-        </div>
+
+        <div id="massage"></div>
     </div>
 
 </body>
