@@ -16,7 +16,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        const dbURL = "https://script.google.com/macros/s/AKfycbxMsM_voDYZBp06HtUle9pXl6V4mycD3NJogstYWiJd2Z0pHiSyvcHbNwg9gAxcWEGb/exec"
+        const dbURL = "https://script.google.com/macros/s/AKfycbzMj0zJGd9nZL_7OrfERnUumCXI625FGihNoR75obpsvZMVeS4G5tGY0YklkNRnJe06/exec"
         var account = ""
         var password = ""
         window.onload = function () {
@@ -84,7 +84,6 @@
 
             $("#distribute").on("click", function () {
                 var price = $("#price").val()
-
                 $.ajax({
                     type: "GET",
                     url: dbURL,
