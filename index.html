@@ -19,9 +19,27 @@
         const dbURL = "https://script.google.com/macros/s/AKfycbzMj0zJGd9nZL_7OrfERnUumCXI625FGihNoR75obpsvZMVeS4G5tGY0YklkNRnJe06/exec"
         var account = ""
         var password = ""
+        var cooldown = 5
+        var clickTime = 0
+
+        function isCooldown() {
+            var time = new Date()
+            if (time.getTime() - clickTime < cooldown*1000) {
+                $("#massage").text("冷卻中，請間隔" + cooldown + "秒在操作")
+                return false
+            }
+            clickTime = time.getTime()
+            return true
+        }
+
         window.onload = function () {
 
             $("#login").on("click", function () {
+
+                if (!isCooldown()) {
+                    return
+                }
+
                 account = $("#username").val()
                 password = $("#password").val()
 
@@ -42,6 +60,9 @@
             })
 
             $("#find").on("click", function () {
+                if (!isCooldown()) {
+                    return
+                }
                 $.ajax({
                     type: "GET",
                     url: dbURL,
@@ -53,6 +74,9 @@
             })
 
             $("#trade").on("click", function () {
+                if (!isCooldown()) {
+                    return
+                }
                 var tradeCount = $("#tradeCount").val()
                 var price = $("#price").val()
                 $.ajax({
@@ -72,6 +96,9 @@
             })
 
             $("#cancel").on("click", function () {
+                if (!isCooldown()) {
+                    return
+                }
                 $.ajax({
                     type: "GET",
                     url: dbURL,
@@ -83,6 +110,9 @@
             })
 
             $("#distribute").on("click", function () {
+                if (!isCooldown()) {
+                    return
+                }
                 var price = $("#price").val()
                 $.ajax({
                     type: "GET",
@@ -98,8 +128,11 @@
                     console.log(JSON.stringify(data));
                 });
             })
-            
+
             $("#addStock").on("click", function () {
+                if (!isCooldown()) {
+                    return
+                }
                 var tradeCount = $("#tradeCount").val()
                 $.ajax({
                     type: "GET",
