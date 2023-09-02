@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<header>
+    <style type="text/css">
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Microsoft JhengHei, serif, sans-serif, cursive, fantasy, monospace;
+        }
+
+        .loginInput {
+            margin: 10px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+
+        var account = ""
+        var password = ""
+        window.onload = function () {
+            var username = $("#username")
+
+            $("#login").on("click", function () {
+
+                $.get("https://google.com.tw/", function (data) {
+                    console.log(data);
+                    alert("Load was performed.");
+                    $("#loginPage").hide()
+                    $("#userControl").show()
+                });
+            })
+        }
+
+
+    </script>
+</header>
+
+<body>
+    <div class="layout">
+        <div id="loginPage" class="layout">
+            <div class="loginInput">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" />
+            </div>
+
+            <div class="loginInput">
+                <label for="pass">Password:</label>
+                <input type="password" id="password" name="password" minlength="3" required />
+            </div>
+
+            <input class="loginInput" id="login" type="submit" value="Sign in" />
+        </div>
+
+        <div id="userControl" hidden="true">
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+</body>
