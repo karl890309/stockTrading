@@ -16,7 +16,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        const dbURL = "https://script.google.com/macros/s/AKfycbzbzPlnMqEZGV4r1w7XB7Ax5Na0J8di9bR0uZnOHA1CrEaDIYo0sVbKDW_uhB90YA/exec"
+        const dbURL = "https://script.google.com/macros/s/AKfycbxMsM_voDYZBp06HtUle9pXl6V4mycD3NJogstYWiJd2Z0pHiSyvcHbNwg9gAxcWEGb/exec"
         var account = ""
         var password = ""
         window.onload = function () {
@@ -30,6 +30,10 @@
                     url: dbURL,
                     data: { "account": account, "password": password, "proto": "登入" }
                 }).done(function (data, textStatus, jqXHR) {
+                    if (data.result === "error") {
+                        $("#massage").text(JSON.stringify(data))
+                        return
+                    }
                     $("#massage").text(JSON.stringify(data))
                     console.log(JSON.stringify(data));
                     $("#loginPage").hide()
