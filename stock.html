@@ -10,25 +10,108 @@
             font-family: Microsoft JhengHei, serif, sans-serif, cursive, fantasy, monospace;
         }
 
-        .loginInput {
+        .inputLayout {
             margin: 10px;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-
+        const dbURL = "https://script.google.com/macros/s/AKfycbylyg9PkQoGwudi_ZfMEgqzJarHgvnAyRSgJLt2tfs32uTFwO1gI0hcTso93MuhkxU2/exec"
         var account = ""
         var password = ""
         window.onload = function () {
-            var username = $("#username")
 
             $("#login").on("click", function () {
+                account = $("#username").val()
+                password = $("#password").val()
 
-                $.get("https://google.com.tw/", function (data) {
-                    console.log(data);
-                    alert("Load was performed.");
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: { "account": account, "password": password, "proto": "登入" }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
                     $("#loginPage").hide()
                     $("#userControl").show()
+                });
+            })
+
+            $("#find").on("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: { "account": account, "password": password, "proto": "查詢" }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
+                });
+            })
+
+            $("#trade").on("click", function () {
+                var tradeCount = $("#tradeCount").val()
+                var price = $("#price").val()
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: {
+                        "account": account,
+                        "password": password,
+                        "proto": "交易",
+                        "tradeCount": tradeCount,
+                        "price": price
+                    }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
+                });
+            })
+
+            $("#cancel").on("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: { "account": account, "password": password, "proto": "取消" }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
+                });
+            })
+
+            $("#distribute").on("click", function () {
+                var tradeCount = $("#tradeCount").val()
+                var price = $("#price").val()
+
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: {
+                        "account": account,
+                        "password": password,
+                        "proto": "配息",
+                        "tradeCount": tradeCount,
+                        "price": price
+                    }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
+                });
+            })
+            
+            $("#addStock").on("click", function () {
+                var tradeCount = $("#tradeCount").val()
+                $.ajax({
+                    type: "GET",
+                    url: dbURL,
+                    data: {
+                        "account": account,
+                        "password": password,
+                        "proto": "加股",
+                        "tradeCount": tradeCount,
+                    }
+                }).done(function (data, textStatus, jqXHR) {
+                    $("#massage").text(JSON.stringify(data))
+                    console.log(JSON.stringify(data));
                 });
             })
         }
@@ -40,12 +123,12 @@
 <body>
     <div class="layout">
         <div id="loginPage" class="layout">
-            <div class="loginInput">
+            <div class="inputLayout">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" />
             </div>
 
-            <div class="loginInput">
+            <div class="inputLayout">
                 <label for="pass">Password:</label>
                 <input type="password" id="password" name="password" minlength="3" required />
             </div>
@@ -54,14 +137,28 @@
         </div>
 
         <div id="userControl" hidden="true">
+            <div class="inputLayout"> 賣出：交易數量為負 </div>
+            <div class="inputLayout">
+                <label for="tradeCount">交易數量:</label>
+                <input type="text" id="tradeCount" name="tradeCount" />
+            </div>
 
+            <div class="inputLayout">
+                <label for="price">交易價格:</label>
+                <input type="text" id="price" name="price" />
+            </div>
 
-
-
+            <input class="loginInput" id="find" type="submit" value="查詢" />
+            <input class="loginInput" id="trade" type="submit" value="交易" />
+            <input class="loginInput" id="cancel" type="submit" value="取消訂單" />
+            <input class="loginInput" id="distribute" type="submit" value="配息" />
+            <input class="loginInput" id="addStock" type="submit" value="加總股數" />
 
         </div>
 
+        <div id="massage">
 
+        </div>
     </div>
 
 </body>
